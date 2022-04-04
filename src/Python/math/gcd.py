@@ -3,6 +3,7 @@ Great Common Divider (GCD) of two nonzero integers is the greatest poisibie numb
 """
 
 from typing import Sequence
+import time
 
 def list_intersect(a: Sequence, b: Sequence):
     a = sorted(a)
@@ -49,7 +50,24 @@ def GCD_brute(a: int, b: int):
         ans *= num
     return ans
 
+def GCD_euclidean(a: int, b: int):
+    assert a > 0
+    assert b > 0
+    min_num = min(a,b)
+    max_num = max(a,b)
+    while max_num%min_num != 0:
+        remainder = max_num%min_num
+        max_num = min_num
+        min_num = remainder
+    return min_num
+
 if __name__ == "__main__":
+    brute_time_1 = time.time()
     ans_gcd_1 = GCD_brute(12, 123) 
-    ans_gcd_2 = GCD_brute(100, 25)
-    print(ans_gcd_1, ans_gcd_2)
+    brute_time_2 = time.time()
+    euclid_time_1 = time.time()
+    ans_gcd_2 = GCD_euclidean(12, 123)
+    euclid_time_2 = time.time()
+    print(f'brute force: {ans_gcd_1}, spent: {(brute_time_2-brute_time_1)*1000000 :.2f} µs')
+    print(f'euclidean : {ans_gcd_2}, spent: {(euclid_time_2-euclid_time_1)*1000000 :.2f} µs')
+    
